@@ -54,7 +54,7 @@ function App() {
       conversation_id: conversationId,
     }
 
-    const res = await fetch('http://65.1.92.45:8080/message/', {
+    const res = await fetch('https://rbiapi.pneumamind.com/message/', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',

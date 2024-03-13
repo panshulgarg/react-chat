@@ -7,16 +7,12 @@ import ChatBox from "./components/ChatBox";
 
 
 function App() {
-//   const sampleMessages = [{
-//     id: 1,
-//     owner: "admin",
-//     text: "this is a sample message"
-//   },
-//   {
-//     id: 2,
-//     owner: "user",
-//     text: "this is a sampleuser message"
-//   },
+  const sampleMessages = [{
+    id: 1,
+    owner: "admin",
+    text: "Welcom to Sarkar, an RBI notification knowledge base, please ask your questions here."
+  },
+  ];
 
 // ]
   
@@ -26,16 +22,9 @@ function App() {
   const [conversationId, setConversationId] = useState(null);
 
   useEffect(() => {
-    //setMessages(sampleMessages);
+    setMessages(sampleMessages);
    // DO SOMETHING WHEN THE PAGE LOADS
   }, []);
-
-  const fetchTask = async (id) => {
-    const res = await fetch(`http://localhost:5000/tasks/${id}`)
-    const data = await res.json()
-
-    return data
-  }
 
   // Add Task
   const sendMessage = async (message_text) => {
@@ -52,7 +41,7 @@ function App() {
     const typingIndicator = {
         id: typingId,
         owner: "admin",
-        text: "...", // Representing typing indicator
+        text: "Getting Response, Please wait, it might take some time, upto 10 seconds sometimes....", // Representing typing indicator
     };
 
     // Add user message and typing indicator
@@ -65,7 +54,7 @@ function App() {
       conversation_id: conversationId,
     }
 
-    const res = await fetch('http://localhost:8000/message/', {
+    const res = await fetch('http://65.1.92.45:8080/message/', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
@@ -76,10 +65,12 @@ function App() {
     const newid = Math.floor(Math.random() * 10000) + 1
 
     const data = await res.json()
+    const numberedSources = data['source'].map((source, index) => `${index + 1}. ${source}`).join('\n');
+
     const messageNewAdmin = {
       id: newid,
     owner: "admin",
-    text: data["text"]
+    text: data["text"] + "\n\n" + "Source List:\n" + numberedSources
     }
     setShowInput(true);
     setConversationId(data["conversation_id"]);
